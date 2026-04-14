@@ -27,6 +27,18 @@ export const metadata: Metadata = {
   },
 };
 
+function Body({ children }: { children: React.ReactNode }) {
+  return (
+    <body className="min-h-full overflow-x-hidden bg-[radial-gradient(circle_at_top_left,_rgba(255,255,255,0.14),_transparent_18%),radial-gradient(circle_at_top_right,_rgba(165,180,252,0.16),_transparent_16%),radial-gradient(circle_at_70%_80%,_rgba(252,211,77,0.12),_transparent_20%),#0b1728] text-slate-100">
+      <CartProvider>
+        <Header />
+        <main className="flex-1 pt-28">{children}</main>
+        <TabBar />
+      </CartProvider>
+    </body>
+  );
+}
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -37,13 +49,7 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full overflow-x-hidden bg-[radial-gradient(circle_at_top_left,_rgba(255,255,255,0.14),_transparent_18%),radial-gradient(circle_at_top_right,_rgba(165,180,252,0.16),_transparent_16%),radial-gradient(circle_at_70%_80%,_rgba(252,211,77,0.12),_transparent_20%),#0b1728] text-slate-100">
-        <CartProvider>
-          <Header />
-          <main className="flex-1 pt-28">{children}</main>
-          <TabBar />
-        </CartProvider>
-      </body>
+      <Body>{children}</Body>
     </html>
   );
 }

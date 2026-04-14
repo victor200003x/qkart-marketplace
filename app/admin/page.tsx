@@ -248,6 +248,28 @@ function savePartners(partners: DeliveryPartner[]) {
   window.localStorage.setItem(STORAGE_KEY_PARTNERS, JSON.stringify(partners));
 }
 
+const STORAGE_KEY_SETTINGS = 'supermarket_settings';
+
+function loadSettings() {
+  if (typeof window === 'undefined') return { primaryColor: '#3b82f6', logoImage: '', heroImage: '', backgroundColor: '#0f172a' };
+  const stored = window.localStorage.getItem(STORAGE_KEY_SETTINGS);
+  if (!stored) {
+    const defaultSettings = { primaryColor: '#3b82f6', logoImage: '', heroImage: '', backgroundColor: '#0f172a' };
+    window.localStorage.setItem(STORAGE_KEY_SETTINGS, JSON.stringify(defaultSettings));
+    return defaultSettings;
+  }
+  try {
+    return JSON.parse(stored);
+  } catch {
+    return { primaryColor: '#3b82f6', logoImage: '', heroImage: '', backgroundColor: '#0f172a' };
+  }
+}
+
+function saveSettings(settings: any) {
+  if (typeof window === 'undefined') return;
+  window.localStorage.setItem(STORAGE_KEY_SETTINGS, JSON.stringify(settings));
+}
+
 function formatCurrency(value: number) {
   return `$${value.toFixed(2)}`;
 }
@@ -282,7 +304,13 @@ export default function AdminPage() {
   const [shops, setShopsState] = useState<Shop[]>(defaultShops);
   const [shopProducts, setShopProductsState] = useState<ShopProduct[]>(defaultShopProducts);
   const [partners, setPartnersState] = useState<DeliveryPartner[]>(defaultDeliveryPartners);
-  const [selectedTab, setSelectedTab] = useState<'overview' | 'products' | 'shops' | 'orders' | 'customers' | 'delivery'>('overview');
+  const [selectedTab, setSelectedTab] = useState<'overview' | 'products' | 'shops' | 'orders' | 'customers' | 'delivery' | 'settings'>('overview');
+  const [settings, setSettings] = useState({
+    primaryColor: '#3b82f6',
+    logoImage: '',
+    heroImage: '',
+    backgroundColor: '#0f172a',
+  });
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -353,6 +381,7 @@ export default function AdminPage() {
       setShopsState(loadShops());
       setShopProductsState(loadShopProducts());
       setPartnersState(loadPartners());
+      setSettings(loadSettings());
     }
   }, []);
 
@@ -379,6 +408,11 @@ export default function AdminPage() {
   const updatePartners = (nextPartners: DeliveryPartner[]) => {
     setPartnersState(nextPartners);
     savePartners(nextPartners);
+  };
+
+  const updateSettings = (nextSettings: any) => {
+    setSettings(nextSettings);
+    saveSettings(nextSettings);
   };
 
   const filteredOrders = useMemo(() => {
@@ -1003,13 +1037,13 @@ export default function AdminPage() {
             <p className="mt-2 max-w-2xl text-slate-300">Dashboard overview, product inventory, order operations, and customer intelligence — all in one place.</p>
           </div>
           <div className="flex flex-wrap gap-3">
-            {['overview', 'products', 'shops', 'orders', 'customers', 'delivery'].map(tab => (
+            {['overview', 'products', 'shops', 'orders', 'customers', 'delivery', 'settings'].map(tab => (
               <button
                 key={tab}
                 onClick={() => setSelectedTab(tab as any)}
                 className={`rounded-full px-5 py-3 text-sm font-semibold transition ${selectedTab === tab ? 'bg-white text-slate-950' : 'bg-white/10 text-slate-300 hover:bg-white/15'}`}
               >
-                {tab === 'overview' ? 'Overview' : tab === 'products' ? 'Products' : tab === 'shops' ? 'Shops' : tab === 'orders' ? 'Orders' : tab === 'customers' ? 'Customers' : 'Delivery'}
+                {tab === 'overview' ? 'Overview' : tab === 'products' ? 'Products' : tab === 'shops' ? 'Shops' : tab === 'orders' ? 'Orders' : tab === 'customers' ? 'Customers' : tab === 'delivery' ? 'Delivery' : 'Settings'}
               </button>
             ))}
             <button
@@ -1780,6 +1814,66 @@ export default function AdminPage() {
                   </div>
                 </div>
               ))}
+            </div>
+          </section>
+        )}
+
+        {selectedTab === 'settings' && (
+          <section className="grid gap-6 lg:grid-cols-3">
+            <div className="rounded-[2rem] border border-white/10 bg-slate-900/70 p-6 shadow-xl backdrop-blur-3xl lg:col-span-1">
+              <p className="text-sm uppercase tracking-[0.3em] text-slate-400">App customization</p>
+              <h2 className="mt-3 text-2xl font-semibold text-white">Settings</h2>
+              <p className="mt-4 text-slate-300">Customize the app's appearance, colors, and images.</p>
+            </div>
+            <div className="lg:col-span-2 space-y-6">
+              <div className="rounded-[2rem] border border-white/10 bg-slate-900/70 p-6 shadow-xl backdrop-blur-3xl">
+                <h3 className="text-lg font-semibold text-white mb-4">UI Customization</h3>
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-slate-300 mb-2">Primary Color</label>
+                    <input
+                      type="color"
+                      value={settings.primaryColor}
+                      onChange={(e) => updateSettings({ ...settings, primaryColor: e.target.value })}
+                      className="w-full h-10 rounded border border-slate-600 bg-slate-800"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-slate-300 mb-2">Background Color</label>
+                    <input
+                      type="color"
+                      value={settings.backgroundColor}
+                      onChange={(e) => updateSettings({ ...settings, backgroundColor: e.target.value })}
+                      className="w-full h-10 rounded border border-slate-600 bg-slate-800"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="rounded-[2rem] border border-white/10 bg-slate-900/70 p-6 shadow-xl backdrop-blur-3xl">
+                <h3 className="text-lg font-semibold text-white mb-4">Image Customization</h3>
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-slate-300 mb-2">Logo Image URL</label>
+                    <input
+                      type="url"
+                      value={settings.logoImage}
+                      onChange={(e) => updateSettings({ ...settings, logoImage: e.target.value })}
+                      placeholder="https://example.com/logo.png"
+                      className="w-full rounded-2xl border border-slate-600 bg-slate-800 px-4 py-3 text-white placeholder-slate-400"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-slate-300 mb-2">Hero Image URL</label>
+                    <input
+                      type="url"
+                      value={settings.heroImage}
+                      onChange={(e) => updateSettings({ ...settings, heroImage: e.target.value })}
+                      placeholder="https://example.com/hero.jpg"
+                      className="w-full rounded-2xl border border-slate-600 bg-slate-800 px-4 py-3 text-white placeholder-slate-400"
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
           </section>
         )}

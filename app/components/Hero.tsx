@@ -1,9 +1,15 @@
 ﻿'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export default function Hero() {
   const heroRef = useRef<HTMLDivElement>(null);
+  const [heroImage, setHeroImage] = useState('');
+
+  useEffect(() => {
+    const settings = JSON.parse(localStorage.getItem('supermarket_settings') || '{"heroImage":""}');
+    setHeroImage(settings.heroImage);
+  }, []);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -34,11 +40,19 @@ export default function Hero() {
       <div className="relative mx-auto flex max-w-6xl flex-col items-center gap-8 text-center text-slate-900">
         <div className="relative rounded-[2rem] border border-white/30 bg-white/10 p-8 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.12)] backdrop-blur-2xl">
           <div className="relative mx-auto mb-8 flex h-72 w-72 items-center justify-center overflow-hidden rounded-[2rem] border border-white/20 bg-white/20 shadow-[0_30px_80px_-30px_rgba(15,23,42,0.3)]">
-            <img
-              src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600"
-              alt="Featured Espresso Machine"
-              className="h-full w-full object-cover"
-            />
+            {heroImage ? (
+              <img
+                src={heroImage}
+                alt="Featured Product"
+                className="h-full w-full object-cover"
+              />
+            ) : (
+              <img
+                src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600"
+                alt="Featured Espresso Machine"
+                className="h-full w-full object-cover"
+              />
+            )}
             <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
           </div>
           <h1 className="text-5xl font-semibold tracking-tight">Shop fresh groceries in crystal clarity</h1>

@@ -2,19 +2,29 @@
 
 import Link from 'next/link';
 import { useCart } from '../context/CartContext';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function Header() {
   const { items } = useCart();
   const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
   const [searchQuery, setSearchQuery] = useState('');
+  const [logoImage, setLogoImage] = useState('');
+
+  useEffect(() => {
+    const settings = JSON.parse(localStorage.getItem('supermarket_settings') || '{"logoImage":""}');
+    setLogoImage(settings.logoImage);
+  }, []);
 
   return (
     <header className="fixed inset-x-0 top-6 z-40 px-4">
       <div className="mx-auto flex max-w-7xl items-center gap-6 rounded-full border border-white/18 bg-white/15 px-6 py-3 shadow-[0_40px_120px_-80px_rgba(255,255,255,0.9)] backdrop-blur-3xl">
         <div className="flex items-center gap-3">
           <div className="rounded-full bg-white/20 p-3 shadow-inner shadow-white/10">
-            <span className="text-lg font-semibold text-white">Q</span>
+            {logoImage ? (
+              <img src={logoImage} alt="Logo" className="w-6 h-6 object-cover rounded" />
+            ) : (
+              <span className="text-lg font-semibold text-white">Q</span>
+            )}
           </div>
           <Link href="/" className="text-lg font-semibold text-white tracking-tight">
             QKart
