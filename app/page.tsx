@@ -108,9 +108,9 @@ export default function Home() {
       <Hero />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-28">
         <div className="mb-10 rounded-[2rem] border border-white/15 bg-white/5 p-6 shadow-[0_30px_80px_-40px_rgba(15,23,42,0.45)] backdrop-blur-2xl">
-          <p className="text-center text-sm uppercase tracking-[0.3em] text-slate-400">Crystal market picks</p>
+          <p className="text-center text-sm uppercase tracking-[0.3em] text-white/70">Crystal market picks</p>
           <h2 className="mt-4 text-3xl font-semibold text-center text-white tracking-tight">Featured Products</h2>
-          <p className="mx-auto mt-4 max-w-2xl text-center text-slate-300">Fresh discounts on pantry staples, produce, and daily essentials — all ready to add to your bag.</p>
+          <p className="mx-auto mt-4 max-w-2xl text-center text-white">Fresh discounts on pantry staples, produce, and daily essentials — all ready to add to your bag.</p>
         </div>
 
         {productsByAisle.map(section => (

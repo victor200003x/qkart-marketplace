@@ -14,9 +14,9 @@ export default function Header() {
       <div className="mx-auto flex max-w-7xl items-center gap-6 rounded-full border border-white/18 bg-white/15 px-6 py-3 shadow-[0_40px_120px_-80px_rgba(255,255,255,0.9)] backdrop-blur-3xl">
         <div className="flex items-center gap-3">
           <div className="rounded-full bg-white/20 p-3 shadow-inner shadow-white/10">
-            <span className="text-lg font-semibold text-slate-900">Q</span>
+            <span className="text-lg font-semibold text-white">Q</span>
           </div>
-          <Link href="/" className="text-lg font-semibold text-slate-900 tracking-tight">
+          <Link href="/" className="text-lg font-semibold text-white tracking-tight">
             QKart
           </Link>
         </div>
@@ -33,14 +33,14 @@ export default function Header() {
             placeholder="Search products..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full rounded-full border border-white/25 bg-slate-100/10 py-3 pl-12 pr-4 text-sm text-slate-900 shadow-inner shadow-black/10 outline-none transition focus:border-white/40 focus:ring-2 focus:ring-white/20"
+            className="w-full rounded-full border border-white/25 bg-slate-100/10 py-3 pl-12 pr-4 text-sm text-white shadow-inner shadow-black/10 outline-none transition focus:border-white/40 focus:ring-2 focus:ring-white/20"
           />
         </div>
 
-        <nav className="flex items-center gap-6 text-sm font-medium text-slate-800">
-          <Link href="/" className="transition hover:text-slate-950">Home</Link>
-          <Link href="/faq" className="transition hover:text-slate-950">FAQ</Link>
-          <Link href="/cart" className="relative transition hover:text-slate-950">
+        <nav className="flex items-center gap-6 text-sm font-medium text-white">
+          <Link href="/" className="transition hover:text-white/80">Home</Link>
+          <Link href="/faq" className="transition hover:text-white/80">FAQ</Link>
+          <Link href="/cart" className="relative transition hover:text-white/80">
             Cart
             {itemCount > 0 && (
               <span className="absolute -top-2 -right-3 inline-flex h-5 w-5 items-center justify-center rounded-full bg-rose-500 text-[10px] text-white shadow-lg">
@@ -48,7 +48,7 @@ export default function Header() {
               </span>
             )}
           </Link>
-          <Link href="/admin" className="transition hover:text-slate-950">Admin</Link>
+          <Link href="/admin" className="transition hover:text-white/80">Admin</Link>
         </nav>
       </div>
     </header>
