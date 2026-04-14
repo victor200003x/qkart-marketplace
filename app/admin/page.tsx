@@ -991,8 +991,8 @@ export default function AdminPage() {
 
   if (!loggedIn) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-amber-50 flex items-center justify-center px-4 py-10">
-        <div className="w-full max-w-xl rounded-3xl bg-white/90 backdrop-blur-xl border border-white/30 shadow-2xl p-8 z-10 relative">
+      <div className="min-h-screen bg-blue-50 flex items-center justify-center px-4 py-10">
+        <div className="w-full max-w-xl rounded-3xl bg-white border border-white/30 shadow-2xl p-8 z-10 relative">
           <h1 className="text-3xl font-semibold mb-6">Admin Login</h1>
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
