@@ -1,5 +1,6 @@
 ﻿'use client';
 
+import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 import ProductCard from './components/ProductCard';
 import Hero from './components/Hero';
@@ -113,13 +114,21 @@ export default function Home() {
         </div>
 
         {productsByAisle.map(section => (
-          <section key={section.aisle} className="mb-10 rounded-[2rem] border border-white/10 bg-slate-950/30 p-6 shadow-[0_20px_40px_-20px_rgba(15,23,42,0.55)] backdrop-blur-xl">
-            <div className="mb-6 flex items-center justify-between gap-4">
+          <section key={section.aisle} id={section.aisle.toLowerCase().replace(/\s+/g, '-')} className="mb-10 rounded-[2rem] border border-white/10 bg-slate-950/30 p-6 shadow-[0_20px_40px_-20px_rgba(15,23,42,0.55)] backdrop-blur-xl">
+            <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
               <div>
-                <p className="text-sm uppercase tracking-[0.3em] text-slate-400">Aisle</p>
+                <p className="text-sm uppercase tracking-[0.3em] text-white/70">Aisle</p>
                 <h3 className="mt-2 text-2xl font-semibold text-white">{section.aisle}</h3>
               </div>
-              <span className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-slate-200">{section.items.length} product{section.items.length === 1 ? '' : 's'}</span>
+              <div className="flex flex-wrap items-center gap-3">
+                <span className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/80">{section.items.length} product{section.items.length === 1 ? '' : 's'}</span>
+                <Link
+                  href={`/aisle/${encodeURIComponent(section.aisle)}`}
+                  className="rounded-full border border-emerald-400/30 bg-emerald-500/10 px-4 py-2 text-sm font-semibold text-emerald-200 transition hover:bg-emerald-500/20"
+                >
+                  View more
+                </Link>
+              </div>
             </div>
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 auto-rows-fr">
               {section.items.map(product => (
