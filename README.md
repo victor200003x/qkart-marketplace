@@ -1,28 +1,51 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# QKart - Online Supermarket Shopping
+
+A modern online marketplace for groceries and daily essentials built with Next.js, TypeScript, and Tailwind CSS.
+
+## Features
+
+- Multi-vendor marketplace with shop-specific pricing
+- Product listing with images, aisle grouping, and descriptions
+- Advanced shopping cart with vendor splitting
+- Pay-now and pay-later checkout options
+- Admin dashboard with order management
+- Responsive design
 
 ## Getting Started
 
-First, run the development server:
+First, install dependencies:
+
+```bash
+npm install
+```
+
+Then, run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `app/` - Next.js app directory
+  - `page.tsx` - Home page with product listing
+  - `cart/page.tsx` - Shopping cart page
+  - `checkout/page.tsx` - Checkout page
+  - `components/` - Reusable components
+  - `context/` - React context for cart state
+  - `types.ts` - TypeScript type definitions
+- `admin/page.tsx` - CSV inventory import with aisle mapping for SKU updates and new product creation
 
-## Learn More
+## Technologies Used
 
-To learn more about Next.js, take a look at the following resources:
+- Next.js 16
+- TypeScript
+- Tailwind CSS
+- React Context for state management
+
+## Deploy on Vercel
 
 - [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
 - [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
