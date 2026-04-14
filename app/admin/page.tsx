@@ -992,11 +992,11 @@ export default function AdminPage() {
   if (!loggedIn) {
     return (
       <div className="min-h-screen bg-blue-50 flex items-center justify-center px-4 py-10">
-        <div className="w-full max-w-xl rounded-3xl bg-white border border-white/30 shadow-2xl p-8 z-10 relative">
-          <h1 className="text-3xl font-semibold mb-6">Admin Login</h1>
+        <div className="w-full max-w-xl rounded-3xl bg-white border border-slate-300 shadow-2xl p-8 z-50 relative">
+          <h1 className="text-3xl font-semibold mb-6 text-slate-900">Admin Login</h1>
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
-              <label htmlFor="username" className="block text-sm font-medium text-slate-700">Email</label>
+              <label htmlFor="username" className="block text-sm font-medium text-slate-900">Email</label>
               <input
                 id="username"
                 type="email"
@@ -1004,18 +1004,18 @@ export default function AdminPage() {
                 onChange={(e) => setUsername(e.target.value)}
                 autoFocus
                 required
-                className="mt-1 block w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+                className="mt-1 block w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder-slate-400 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
               />
             </div>
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-slate-700">Password</label>
+              <label htmlFor="password" className="block text-sm font-medium text-slate-900">Password</label>
               <input
                 id="password"
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="mt-1 block w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+                className="mt-1 block w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder-slate-400 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
               />
             </div>
             {error && <p className="text-sm text-rose-600">{error}</p>}
