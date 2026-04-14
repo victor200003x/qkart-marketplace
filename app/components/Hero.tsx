@@ -52,7 +52,7 @@ export default function Hero() {
         </div>
 
         <div className="flex flex-col items-center gap-4 rounded-full border border-white/20 bg-white/20 px-8 py-4 shadow-[0_24px_80px_-32px_rgba(15,23,42,0.45)] backdrop-blur-2xl">
-          <p className="text-2xl font-semibold text-slate-900">From $1.99</p>
+          <p className="text-2xl font-semibold text-slate-900">From MWK 1.99</p>
           <button className="rounded-full bg-white/80 px-10 py-3 text-sm font-semibold text-slate-900 shadow-2xl shadow-slate-900/10 transition hover:bg-white/90">
             Explore fresh now
           </button>

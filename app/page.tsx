@@ -121,7 +121,7 @@ export default function Home() {
               </div>
               <span className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-slate-200">{section.items.length} product{section.items.length === 1 ? '' : 's'}</span>
             </div>
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 auto-rows-fr">
               {section.items.map(product => (
                 <ProductCard key={product.id} product={product} offers={offersByProduct[product.id] || []} shops={shops} />
               ))}
