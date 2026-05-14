@@ -14,6 +14,8 @@ export default function Checkout() {
     zipCode: ''
   });
   const [paymentSelections, setPaymentSelections] = useState<Record<string, PaymentMethod>>({});
+  const [deliveryFee, setDeliveryFee] = useState(0);
+  const [locationStatus, setLocationStatus] = useState('');
 
   useEffect(() => {
     const groups = items.reduce<Record<string, CartItem[]>>((groups, item) => {
@@ -47,6 +49,35 @@ export default function Checkout() {
       ...prev,
       [e.target.name]: e.target.value
     }));
+  };
+
+  const handleGetLocation = () => {
+    if (navigator.geolocation) {
+      setLocationStatus('Getting location...');
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          // Check if within Lilongwe, Malawi (approximate bounds)
+          const inLilongwe = latitude >= -14.5 && latitude <= -13.5 && longitude >= 33.0 && longitude <= 34.0;
+          if (inLilongwe) {
+            setDeliveryFee(500); // MWK 500 delivery fee
+            setLocationStatus('Location confirmed: Lilongwe, Malawi. Delivery fee: MWK 500');
+          } else {
+            setDeliveryFee(0);
+            setLocationStatus('Location outside Lilongwe. No delivery fee.');
+          }
+          setFormData(prev => ({
+            ...prev,
+            address: `Lat: ${latitude.toFixed(4)}, Lng: ${longitude.toFixed(4)}`
+          }));
+        },
+        (error) => {
+          setLocationStatus('Error getting location: ' + error.message);
+        }
+      );
+    } else {
+      setLocationStatus('Geolocation not supported');
+    }
   };
 
   const offersByShop = items.reduce<Record<string, CartItem[]>>((groups, item) => {
@@ -110,8 +141,16 @@ export default function Checkout() {
             ))}
             <div className="rounded-3xl border border-slate-700/50 bg-slate-950/90 p-4 shadow-sm">
               <div className="flex justify-between font-bold text-white">
-                <span>Total</span>
+                <span>Subtotal</span>
                 <span>MWK {total.toFixed(2)}</span>
+              </div>
+              <div className="flex justify-between text-white mt-2">
+                <span>Delivery Fee</span>
+                <span>MWK {deliveryFee.toFixed(2)}</span>
+              </div>
+              <div className="flex justify-between font-bold text-white mt-2 border-t pt-2">
+                <span>Total</span>
+                <span>MWK {(total + deliveryFee).toFixed(2)}</span>
               </div>
             </div>
           </div>
@@ -160,6 +199,14 @@ export default function Checkout() {
                 rows={3}
                 className="mt-1 block w-full rounded-md border border-slate-700 bg-slate-950/90 px-3 py-2 text-slate-100 shadow-sm focus:ring-blue-500 focus:border-blue-500"
               />
+              <button
+                type="button"
+                onClick={handleGetLocation}
+                className="mt-2 bg-green-500 text-white py-1 px-3 rounded-md hover:bg-green-600 text-sm"
+              >
+                📍 Use Current Location
+              </button>
+              {locationStatus && <p className="mt-2 text-sm text-slate-400">{locationStatus}</p>}
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>

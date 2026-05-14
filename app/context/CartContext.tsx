@@ -26,6 +26,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
     if (storedOrders) {
       setOrders(JSON.parse(storedOrders));
     }
+    const storedItems = window.localStorage.getItem('cart_items');
+    if (storedItems) {
+      setItems(JSON.parse(storedItems));
+    }
   }, []);
 
   const saveOrders = (nextOrders: Order[] | ((prevOrders: Order[]) => Order[])) => {
@@ -38,9 +42,19 @@ export function CartProvider({ children }: { children: ReactNode }) {
     });
   };
 
+  const saveItems = (nextItems: CartItem[] | ((prevItems: CartItem[]) => CartItem[])) => {
+    setItems(prev => {
+      const itemsToSave = typeof nextItems === 'function' ? nextItems(prev) : nextItems;
+      if (typeof window !== 'undefined') {
+        window.localStorage.setItem('cart_items', JSON.stringify(itemsToSave));
+      }
+      return itemsToSave;
+    });
+  };
+
   const addItem = (product: Product, shopProduct: ShopProduct) => {
     console.log('addItem called with', product.name, shopProduct.id);
-    setItems(prev => {
+    saveItems(prev => {
       const existing = prev.find(item => item.shopProduct.id === shopProduct.id);
       if (existing) {
         return prev.map(item =>
@@ -54,7 +68,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   };
 
   const removeItem = (shopProductId: string) => {
-    setItems(prev => prev.filter(item => item.shopProduct.id !== shopProductId));
+    saveItems(prev => prev.filter(item => item.shopProduct.id !== shopProductId));
   };
 
   const updateQuantity = (shopProductId: string, quantity: number) => {
@@ -62,7 +76,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       removeItem(shopProductId);
       return;
     }
-    setItems(prev =>
+    saveItems(prev =>
       prev.map(item =>
         item.shopProduct.id === shopProductId ? { ...item, quantity } : item
       )
@@ -70,7 +84,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   };
 
   const clearCart = () => {
-    setItems([]);
+    saveItems([]);
   };
 
   const submitOrder = (customer: CustomerInfo, paymentMethods: Record<string, PaymentMethod>) => {
