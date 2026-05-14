@@ -17,9 +17,11 @@ export default function ProductCard({ product, offers, shops }: ProductCardProps
   const bestShop = bestOffer ? shops.find(shop => shop.id === bestOffer.shopId) : undefined;
   const displayPrice = bestOffer ? (bestOffer.discountPrice ?? bestOffer.price) : product.price;
 
+  console.log('ProductCard for', product.name, 'bestOffer:', bestOffer, 'available:', bestOffer?.available);
+
   return (
     <div className="group relative flex h-full flex-col overflow-hidden rounded-[2rem] border border-white/20 bg-white/10 p-5 shadow-[0_20px_60px_-30px_rgba(15,23,42,0.4)] backdrop-blur-[20px] transition-all duration-300 hover:-translate-y-1 hover:backdrop-blur-[30px] hover:shadow-[0_30px_90px_-30px_rgba(15,23,42,0.45)]">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(255,255,255,0.35),transparent_25%)] opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(255,255,255,0.35),transparent_25%)] opacity-0 transition-opacity duration-300 group-hover:opacity-100 pointer-events-none" />
       <div className="relative overflow-hidden rounded-[1.5rem] mb-5">
         <img
           src={product.image}
@@ -55,7 +57,10 @@ export default function ProductCard({ product, offers, shops }: ProductCardProps
         <button
           type="button"
           disabled={!bestOffer || !bestOffer.available}
-          onClick={() => bestOffer && addItem(product, bestOffer)}
+          onClick={() => {
+            console.log('Button clicked, bestOffer:', bestOffer);
+            if (bestOffer) addItem(product, bestOffer);
+          }}
           className="rounded-full border border-white/30 bg-emerald-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-400 disabled:cursor-not-allowed disabled:bg-slate-600"
         >
           Add cheapest offer
