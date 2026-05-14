@@ -1,6 +1,7 @@
 ﻿'use client';
 
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import { Product, Shop, ShopProduct } from '../types';
 import { useCart } from '../context/CartContext';
 
@@ -12,10 +13,16 @@ interface ProductCardProps {
 
 export default function ProductCard({ product, offers, shops }: ProductCardProps) {
   const { addItem } = useCart();
+  const [primaryColor, setPrimaryColor] = useState('#10b981');
   const availableOffers = offers.filter(offer => offer.available);
   const bestOffer = [...availableOffers].sort((a, b) => (a.discountPrice ?? a.price) - (b.discountPrice ?? b.price))[0] ?? offers[0];
   const bestShop = bestOffer ? shops.find(shop => shop.id === bestOffer.shopId) : undefined;
   const displayPrice = bestOffer ? (bestOffer.discountPrice ?? bestOffer.price) : product.price;
+
+  useEffect(() => {
+    const settings = JSON.parse(localStorage.getItem('supermarket_settings') || '{}');
+    setPrimaryColor(settings.primaryColor || '#10b981');
+  }, []);
 
   console.log('ProductCard for', product.name, 'bestOffer:', bestOffer, 'available:', bestOffer?.available);
 
@@ -61,7 +68,8 @@ export default function ProductCard({ product, offers, shops }: ProductCardProps
             console.log('Button clicked, bestOffer:', bestOffer);
             if (bestOffer) addItem(product, bestOffer);
           }}
-          className="rounded-full border border-white/30 bg-emerald-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-400 disabled:cursor-not-allowed disabled:bg-slate-600"
+          className="rounded-full border border-white/30 px-4 py-2 text-sm font-semibold text-white transition hover:opacity-80 disabled:cursor-not-allowed disabled:bg-slate-600"
+          style={{ backgroundColor: primaryColor }}
         >
           Add cheapest offer
         </button>
