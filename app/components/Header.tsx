@@ -58,7 +58,7 @@ export default function Header() {
               </span>
             )}
           </Link>
-          <Link href="/admin" className="transition hover:text-white/80">Admin</Link>
+          <Link href="/admin" className="hidden md:block transition hover:text-white/80">Admin</Link>
         </nav>
       </div>
     </header>
